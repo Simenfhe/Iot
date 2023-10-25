@@ -6,7 +6,9 @@ const {
 } = require("../controllers/countController");
 
 //ALL count 
-router.get("/count", getCount);
+router.get("/", getCount);
+//router.put("/add", addToCount)
+//router.put("/subtract", subtractToCount)
 
 router.get("/temp", getTemp);
 

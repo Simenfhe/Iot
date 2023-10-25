@@ -1,10 +1,14 @@
 
-//get count
+//get count 
 const getCount = async (req, res) => {
   console.log("teller")
     const amount = "3"
     res.send(amount);
 };
+
+const addToCount = async (req, res) => {
+  let
+}
 
 const getTemp = async (req,res) => {
   console.log("temp")

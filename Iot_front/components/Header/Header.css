@@ -1,0 +1,15 @@
+nav {
+    box-sizing: border-box;
+    width: 100vw;
+}
+
+nav ul {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 5rem;
+}
+
+nav ul li {
+    font-size: 2rem;
+    list-style: none;
+}
