@@ -1,0 +1,14 @@
+{
+  "name": "iot",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "starter": "npm i && npm run server",
+    "server": "concurrently \"npm run frontend\" \"npm run backend\"",
+    "frontend": "cd Iot_front && npm i && npm run dev",
+    "backend": "cd Iot_back && npm i && nodemon index"
+  },
+  "dependencies": {
+    "concurrently": "^8.0.1"
+  }
+}
