@@ -11,7 +11,7 @@ function LandingPage() {
     useEffect(() => {
         axios.get("/counter").then((response) => {
             setCount(response.data)
-            console.log(count)
+            console.log(response.data)
         })
 
         axios.get("/temp").then((response) => {

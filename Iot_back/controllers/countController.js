@@ -2,7 +2,7 @@
 //get count 
 const getCount = async (req, res) => {
   console.log("teller")
-    const amount = "3"
+    const amount = "7"
     res.send(amount);
 };
 
