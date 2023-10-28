@@ -5,49 +5,42 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const dotenv = require("dotenv").config();
-const { SSE } = require('sse')
-const mqtt = require('mqtt');
-
-const host = process.env.MQTT_HOST ;
-const mqttPort = '8084'
-const clientId = `emqx_cloudcea9ea`
-
-const connectUrl = `wss://${host}:${mqttPort}/mqtt`
-const client = mqtt.connect(connectUrl, {
-  clientId,
-  clean: true,
-  connectTimeout: 4000,
-  username: process.env.MQTT_USER,
-  password: process.env.MQTT_PASSW,
-  reconnectPeriod: 1000,
-})
-
-console.log('mqtt pasww', process.env.MQTT_PASSW)
-console.log('mqtt user', process.env.MQTT_USER)
-
-const topic = 'hei/simen'
-
-client.on('connect', () => {
-  console.log('Connected to MQTT broker')
-
-  client.subscribe([topic], () => {
-    console.log(`Subscribe to topic '${topic}'`)
-    client.publish(topic, 'nodejs mqtt test', { qos: 0, retain: false }, (error) => {
-      if (error) {
-        console.error(error)
-      }
-    })
-  })
-})
-
-client.on('message', (topic, payload) => {
-  console.log('Received Message:', topic, payload.toString())
-})
+const SSE = require('sse')
+const { connectToMQTT } = require('./routers/mqtt');
+const {Room, validateRoom} = require('./models/room');
 
 
-client.on('error', (error) => {
-  console.error('connection failed', error)
-})
+//connect to mqtt and topic
+connectToMQTT();
+
+//___________________________________________________________________________
+
+
+// Import ioredis.
+const Redis = require("ioredis");
+
+const redis = new Redis(
+  {
+    host: process.env.REDIS_HOST, // Redis server host
+    port: process.env.REDIS_PORT,        // Redis server port
+  }
+);
+
+redis.set("example", "14", 'EX', 10); // Returns a promise which resolves to "OK" when the command succeeds.
+
+// ioredis supports the node.js callback style
+redis.get("example", (err, result) => {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log(result);
+  }
+});
+
+// so the following statement is equivalent to the CLI: `redis> SET mykey hello EX 10`
+redis.set("mykey", "hello", "EX", 10);
+
+//___________________________________________________________________________
 
 
 //Routes
@@ -57,7 +50,7 @@ const rooms = require("./routers/roomRouter");
 //Adding settings for the CORS
 app.use(
   cors({
-    origin: ["http://localhost:5173","*"],
+    origin: [process.env.CORS_ORIGIN,"*"],
     credentials: true,
   })
 );
@@ -65,7 +58,7 @@ app.use(
 mongoose
   .connect(process.env.URI)
   .then(() =>
-    console.log("Connected to MongoDB...", "on", process.env.URI)
+    console.log("--- Connected to MongoDB---")
   )
   .catch(() =>
     console.log("Could not connect to MongoDB...", process.env.URI)
@@ -79,20 +72,62 @@ app.use("/counter", counter);
 app.use("/rooms", rooms);
 
 //SSE endpoint
-app.get("/sse", (req,res) => {
-  const sse = new SSE()
-  res.setHeader('Content-Type', 'text/event-stream')
-  res.setHeader('Cache-Control', 'no-cache')
-  res.setHeader('Connection','keep-alive')
-  res.setHeader('Access-Control-Allow-Origin','*')
-  
-  sse.init(req,res)
-  sse.send({data:'initial data'})
+app.get('/sse/:room', async (req, res) => {
+  const roomName = req.params.room; // Get the room name from URL parameters
+  let value = 0;
+  console.log(req.params.room);
 
-  req.on('close',() =>{
-    
-  })
-})
+  try {
+    // Use the roomName to query the "Room" collection in MongoDB
+    const room = await Room.findOne({ name: roomName });
+
+    if (room) {
+      value = room.available;
+      console.log('cap: ', room.capacity) // Set the value based on room.available
+    } else {
+      console.error(`Room '${roomName}' not found in MongoDB`);
+    }
+  } catch (error) {
+    console.error('MongoDB error:', error);
+    // Handle the error and respond accordingly
+  }
+
+  res.writeHead(200, {
+    'Content-Type': 'text/event-stream',
+    'Connection': 'keep-alive',
+    'Cache-Control': 'no-cache',
+    'Access-Control-Allow-Origin': '*',
+  });
+
+  let counter = 0;
+
+  // Send a message on connection
+  res.write('event: connected\n');
+  res.write(`data: ${value}\n`);
+  res.write(`id: ${counter}\n\n`);
+  counter += 1;
+
+  // Send a subsequent message every five seconds
+  setInterval(async () => {
+    if(redis.get(roomName)) {
+      cashe_value = await redis.get(roomName);
+      console.log('cashe_value: ', cashe_value)
+      if(value != cashe_value & cashe_value != null) 
+      { value = cashe_value; }
+    }
+    console.log('sse running');
+    console.log('counter: ', counter)
+    res.write('event: message\n');
+    res.write(`data: ${value}\n`);
+    res.write(`id: ${counter}\n\n`);
+    counter += 1;
+  }, 1000);
+
+  // Close the connection when the client disconnects
+  req.on('close', () => res.end('OK'));
+});
+
+
 
 
 
