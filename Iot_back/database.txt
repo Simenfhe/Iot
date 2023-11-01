@@ -1,0 +1,26 @@
+MONGODB:
+
+[Campus]
+    -id=ID
+    -name=ID
+    [Buildings]
+        -id=ID
+        -Name=string
+        -location=string
+        -rooms=[Room]
+
+        [Room]
+        -Id=ID
+        -type=string
+        -capacity=number
+        -available=number
+        -temperature=number
+[Moss_popular_room]
+    -id=ID
+    [rooms]
+    -id=ID
+    -count=number
+
+Redis:
+-RoomId_Count=number(EX)
+-RoomId_Temp=number(EX)

@@ -113,13 +113,14 @@ app.get('/sse/:room', async (req, res) => {
       cashe_value = await redis.get(roomName);
       console.log('cashe_value: ', cashe_value)
       if(value != cashe_value & cashe_value != null) 
-      { value = cashe_value; }
+      { value = cashe_value;
+        res.write('event: message\n');
+        res.write(`data: ${value}\n`);
+        res.write(`id: ${counter}\n\n`); }
     }
     console.log('sse running');
     console.log('counter: ', counter)
-    res.write('event: message\n');
-    res.write(`data: ${value}\n`);
-    res.write(`id: ${counter}\n\n`);
+    
     counter += 1;
   }, 1000);
 
