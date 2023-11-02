@@ -1,0 +1,16 @@
+.metercontainer {
+    width: 200px;
+    height: 100px;
+    background-color: aliceblue;
+    border-radius: 100px 100px 0 0;
+    border: 2px solid aliceblue;
+    margin-left: 2rem;
+    overflow: hidden;
+}
+
+.meterneedle {
+    width: 5px;
+    height: 200px;
+    background-color: black;
+    margin: 0 auto;
+}

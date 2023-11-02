@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../functions/axios';
+import Meter from '../components/Meter/Meter';
 
 // import sensordata
 
@@ -30,6 +31,7 @@ function LandingPage() {
     return (
         <main>
             <h1>Vælkømmin til gaars</h1>
+            <Meter percentage="-32" />
             <ul>
                 <li>Det er {count}stk i rommet</li>
                 <li>Det er {temp} grader der</li>
