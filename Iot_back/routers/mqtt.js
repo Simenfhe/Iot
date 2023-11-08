@@ -1,14 +1,8 @@
 const mqtt = require('mqtt');
 const dotenv = require("dotenv").config();
-const Redis = require('ioredis'); // Import the ioredis library
 const {Room, validateRoom} = require('../models/room');
-const {addToCount} = require('../controllers/countController');
+const {updateCount} = require('../controllers/countController');
 
-
-const redis = new Redis({
-  host: process.env.REDIS_HOST, // Redis server host
-  port: process.env.REDIS_PORT, // Redis server port
-});
 
 const connectToMQTT = () => {
   const host = process.env.MQTT_HOST;
@@ -46,7 +40,7 @@ const connectToMQTT = () => {
     //ADD THE KEY "test" AND VALUE "123" TO REDIS
     switch (topic) {
       case count_update:
-        addToCount(string);
+        updateCount(string);
         break;
       case count_set:
         console.log('--count_set');

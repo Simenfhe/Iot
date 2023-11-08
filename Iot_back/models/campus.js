@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const roomSchema = new mongoose.Schema({
   type: String,
   capacity: Number,
-  available: Number,
+  count: Number,
   roomNr: Number
 });
 
