@@ -8,39 +8,13 @@ const dotenv = require("dotenv").config();
 const SSE = require('sse')
 const { connectToMQTT } = require('./routers/mqtt');
 const {Room, validateRoom} = require('./models/room');
-
-
-//connect to mqtt and topic
-connectToMQTT();
-
-//___________________________________________________________________________
-
-
-// Import ioredis.
 const Redis = require("ioredis");
+const connect = require('./functions/connect');
 
-const redis = new Redis(
-  {
-    host: process.env.REDIS_HOST, // Redis server host
-    port: process.env.REDIS_PORT,        // Redis server port
-  }
-);
 
-redis.set("example", "14", 'EX', 10); // Returns a promise which resolves to "OK" when the command succeeds.
-
-// ioredis supports the node.js callback style
-redis.get("example", (err, result) => {
-  if (err) {
-    console.error(err);
-  } else {
-    console.log(result);
-  }
-});
-
-// so the following statement is equivalent to the CLI: `redis> SET mykey hello EX 10`
-redis.set("mykey", "hello", "EX", 10);
-
-//___________________________________________________________________________
+//---CONNECT TO REDIS, MONGO_DB AND MQTT 
+connect();
+ 
 
 
 //Routes
@@ -55,14 +29,7 @@ app.use(
   })
 );
 
-mongoose
-  .connect(process.env.URI)
-  .then(() =>
-    console.log("--- Connected to MongoDB---")
-  )
-  .catch(() =>
-    console.log("Could not connect to MongoDB...", process.env.URI)
-  );
+
 
 //running request through JSON
 app.use(express.json());
