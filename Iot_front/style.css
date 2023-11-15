@@ -27,3 +27,16 @@ a {
 a:hover {
     color: #fff2c8;
 }
+
+.mapelement {
+    color: rgb(183, 183, 183);
+}
+
+.room:hover {
+    color: #8d8dff;
+    cursor: pointer;
+}
+
+.hallway {
+    color: #aaff64;
+}

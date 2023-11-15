@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../functions/axios';
+import Meter from '../components/Meter/Meter';
+import Map from '../components/Map/Map';
 
 // import sensordata
 
@@ -24,6 +26,7 @@ function LandingPage() {
         //     console.log(air)
         // })
 
+
         const eventSource = new EventSource("http://localhost:5000/sse/5945");
         eventSource.onmessage = (event) => {
             setAir(event.data);
@@ -34,17 +37,21 @@ function LandingPage() {
             eventSource.close(); // Close the EventSource when the component unmounts.
         };
 
+
     }, [])
 
 
     return (
         <main>
             <h1>Vælkømmin til gaars</h1>
+            <Meter percentage="90" />
             <ul>
                 <li>Det er {count}stk i rommet</li>
                 <li>Det er {temp} grader der</li>
                 <li>Det er {air} ledige plasser</li>
             </ul>
+            <Map />
+
         </main>
     )
 
