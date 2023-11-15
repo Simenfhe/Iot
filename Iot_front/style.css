@@ -6,6 +6,7 @@
 body {
     background-color: #F3F3F3;
 }
+
 :root {
     --goof-yellah: #FFE4A1;
     --dark-grey: #3D3D3D;
@@ -14,6 +15,7 @@ body {
     --main-color-darker: #ff8d8d;
     --main-color-darkest: #ff8d8d;
     --main-color-darkest: white;
+    --goof-yellah-200: #A69469;
 }
 
 @font-face {

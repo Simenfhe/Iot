@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../functions/axios';
 import './RoomList.css'
+import RoomCard from '../components/RoomCard/RoomCard';
 
 function RoomList() {
     const [rooms, setRooms] = useState([])
@@ -37,9 +38,8 @@ function RoomList() {
                                                 <ul className='hidden'>
                                                     {building.rooms.map(room => {
                                                         return (
-                                                            <li className='roomtitle' key={room._id} onClick={() => {
-                                                                showRoomCard(campus._id, building._id, room._id)
-                                                            }}>Room {room.roomNr}
+                                                            <li className='roomtitle' key={room._id} onClick={(e) => { showChildren(e) }}>Room {room.roomNr}
+                                                                <RoomCard room={room} building={building.name} campus={campus.name} className='hidden' />
                                                             </li>
                                                         )
                                                     })}

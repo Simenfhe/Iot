@@ -3,25 +3,32 @@ import React from 'react'
 import { useEffect } from 'react'
 import Meter from '../Meter/Meter'
 
-function RoomCard(props) {
+function RoomCard(room, campus, building) {
     var percentage = 0
-    let room = props.room
+    // let room = room
     // roomid, roommax, roomcurrent, roomtemp, roomair, room location
     if (room) {
         percentage = room.roomcurrent / room.roommax * 100
     }
 
-
+    console.log("campus", campus)
+    console.log("building", building)
 
     return (
         <div>
-            <ul>
-                <li>Roomid : {room.roomid}</li>
-                <li>Room capacity : {room.roommax}</li>
-                <li>Current occupants : {room.roomcurrent}</li>
-                <li>Current temperature : {room.roomtemp}</li>
-            </ul>
-            <Meter percentage={percentage} />
+            <h3>{room.roomname}()</h3>
+            <h4>{percentage}% opptatt</h4>
+            {/* placeholder for histogramm component */}
+            <div>
+                <ul>
+                    <li><p>Temperatur:</p>  <p>{room.roomtemp || 20}</p> </li>
+                    <li><p>Lydnivå:</p>  <p>{room.roomsound || 31}</p> </li>
+                </ul>
+                <div>
+                    {/* placeholder fro tempgreie og lydgreie */}
+                </div>
+            </div>
+
         </div>
     )
 }
