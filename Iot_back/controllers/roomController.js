@@ -1,5 +1,6 @@
 //model and validation
 const {Room, validateRoom} = require('../models/room');
+const Campus = require('../models/campus');
 
 //modules
 const _ = require('lodash');
@@ -11,6 +12,7 @@ const getRooms = async (req, res) => {
     res.send(rooms);
   };
 
+//old
 const addRoom = async(req, res) => {
     //validating the tool
     const { error } = validateRoom(req.body);
@@ -39,6 +41,74 @@ const addRoom = async(req, res) => {
     }
 }
 
+getRoomFromCookie = async (req, res) => {
+    console.log('getRoomFromCookie')
+
+    //if Cookie exists .. do this, else return
+
+    //extract info from cookie
+    const campusId =""; 
+    const buildingName="";
+    const roomName="";
+
+    const result = await findRoom(campusId, buildingName, roomName);
+    
+    if (result.error) {
+        res.status(500).send(result.error);
+        console.log('Oops');
+    } else {
+        res.send(result.room);
+    }
+}
+
+
+// Get one specific room in a specific campus and building
+        //Read the room that the user wants to get, and add a count to the room (most used), give the user a cookie with this room
+const getRoom = async (req, res) => {
+    const campusId = req.params.campusId; // Extract the campus ID from the request
+    const buildingName = req.params.buildingId; // Extract the building ID from the request
+    const roomName = req.params.roomId; // Extract the room ID from the request
+  
+    
+    const result = await findRoom(campusId, buildingName, roomName);
+    
+    if (result.error) {
+        res.status(500).send(result.error);
+        console.log('Oops');
+    } else {
+        res.send(result.room);
+    }
+  };
+  
+
+
+  const findRoom = async (campusId, buildingName, roomName) => {
+    try {
+      const campus = await Campus.findOne({ name: campusId });
+  
+      if (!campus) {
+        return { error: `Campus not found ${campusId}` };
+      }
+  
+      // Find the building by name
+      const building = campus.buildings.find((building) => building.name === buildingName);
+      if (!building) {
+        return { error: 'Building not found' };
+      }
+  
+      // Find the correct room
+      const room = building.rooms.find((room) => room.roomNr == roomName);
+      if (!room) {
+        return { error: 'Room not found' };
+      }
+  
+      return { room };
+    } catch (error) {
+      return { error: 'An error occurred while fetching the room' };
+    }
+  };
+
+
   module.exports = {
-    getRooms, addRoom
+    getRooms, addRoom, getRoom
   };

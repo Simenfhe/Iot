@@ -4,16 +4,21 @@ import React from "react"
 function Meter(props) {
 
     let percentage = props.percentage
-    console.log(percentage)
     let color
 
-    if (percentage < -30) {
+    //set color according to occupancy
+    if (percentage < 50) {
         color = "green"
-    } else if (percentage < 30) {
+    } else if (percentage < 75) {
         color = "yellow"
     } else {
         color = "red"
     }
+
+    //translate percentage into degrees
+    let degrees = ((percentage * 180) / 100) - 90
+
+
 
 
 
@@ -21,7 +26,7 @@ function Meter(props) {
     return (
         <div className="metercontainer" style={{ backgroundColor: color }} >
 
-            <div className="meterneedle" style={{ transform: `rotate(${percentage}deg)` }}></div>
+            <div className="meterneedle" style={{ transform: `rotate(${degrees}deg)` }}></div>
         </div>
     )
 

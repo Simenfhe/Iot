@@ -1,0 +1,13 @@
+Endpoints for backend
+
+-Post /rooms/
+    Add a room to db
+
+-Get /rooms/:id
+    Get a room from db
+
+MQTT
+    Update a room in db
+
+-Delete /rooms/:id
+    Delete a room from db
