@@ -8,7 +8,7 @@ const dotenv = require("dotenv").config();
 const SSE = require('sse')
 const { connectToMQTT } = require('./routers/mqtt');
 const {Room, validateRoom} = require('./models/room');
-const Redis = require("ioredis");
+const redis = require("ioredis");
 const connect = require('./functions/connect');
 
 

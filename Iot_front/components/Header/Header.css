@@ -1,20 +1,39 @@
 nav {
     box-sizing: border-box;
     width: 100vw;
-    background-color: #FFE4A1;
+    background-color: var(--goof-yellah, #FFE4A1);
 }
 
-nav ul {
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    width: 100%;
+}
+
+nav {
     display: flex;
     justify-content: space-between;
-    margin: 0 5rem;
+    width: 100%;
 }
 
 nav ul li {
     list-style: none;
 }
 
-#logo {
+img {
     width: 15vw;
-    height: auto;
+    height: 15vw;
+}
+
+svg {
+    width: 15vw;
+    height: 15vw;
+}
+
+svg > *{
+    color: var(--dark-grey, #F3F3F3);
 }
