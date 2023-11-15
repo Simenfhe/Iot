@@ -7,9 +7,9 @@ const _ = require('lodash');
 
 
 //get count 
-const getRooms = async (req, res) => {
-    const rooms = await Room.find().sort('name');
-    res.send(rooms);
+const getAllRooms = async (req, res) => {
+    const data = await Campus.find().sort('name');
+    res.send(data);
   };
 
 //old
@@ -110,5 +110,5 @@ const getRoom = async (req, res) => {
 
 
   module.exports = {
-    getRooms, addRoom, getRoom
+    getAllRooms, addRoom, getRoom
   };
