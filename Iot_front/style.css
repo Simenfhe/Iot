@@ -7,13 +7,42 @@ body {
     background-color: #F3F3F3;
 }
 
+@font-face {
+    font-family: Neue Haas Unica Pro medium;
+    src: url(./public/Neue-Haas-Unica-Pro/NeueHaasUnicaPro-Medium.ttf);
+}
+
+@font-face {
+    font-family: Neue Haas Unica Pro regular;
+    src: url(./public/Neue-Haas-Unica-Pro/NeueHaasUnicaPro-Regular.ttf);
+}
+
 p,
 a,
 li,
 h1,
 h2,
 h3 {
-    color: goof yellah;
+    color: black;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+h1,
+h2,
+h3 {
+    font-family: Neue Haas Unica Pro medium;
+}
+
+h4,
+h5,
+h6,
+p,
+a,
+li {
+    font-family: Neue Haas Unica Pro regular;
 }
 
 li {

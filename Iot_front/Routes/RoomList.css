@@ -1,0 +1,34 @@
+.campustitle,
+.buildingtitle,
+.roomtitle {
+    margin: 0.5rem;
+    padding: 1rem;
+    border-radius: 3px;
+}
+
+.campus {}
+
+.hidden {
+    display: none;
+}
+
+.campustitle {
+    background-color: #FFE4A1;
+    font-size: 2rem;
+
+
+}
+
+.building {}
+
+.buildingtitle {
+    background-color: #A69469;
+    font-size: 1.6rem;
+
+}
+
+.roomtitle {
+    background-color: #312C1F;
+    color: #F1F1F2;
+    font-size: 1.3rem;
+}

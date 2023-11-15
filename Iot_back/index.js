@@ -15,7 +15,12 @@ const connect = require('./functions/connect');
 //---CONNECT TO REDIS, MONGO_DB AND MQTT 
 connect();
  
-
+const redis = new Redis(
+  {
+    host: process.env.REDIS_HOST, // Redis server host
+    port: process.env.REDIS_PORT,        // Redis server port
+  }
+);
 
 //Routes
 const counter = require("./routers/countRoutes");
