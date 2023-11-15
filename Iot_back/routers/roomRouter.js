@@ -2,14 +2,17 @@ const express = require("express");
 const router = express.Router();
 
 const {
-    getRooms, addRoom
+    getRooms, addRoom, getRoom
 } = require("../controllers/roomController");
 
 //Routes
-router.get("/", getRooms);
+
 
 router.post("/", addRoom);
 
+router.get("/:campusId/:buildingId/:roomId", getRoom);
+
+router.get("/", getRooms);
 
 
 
