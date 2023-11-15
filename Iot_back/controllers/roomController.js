@@ -1,6 +1,7 @@
 //model and validation
 const {Room, validateRoom} = require('../models/room');
 const Campus = require('../models/campus');
+const RoomHistory = require('../models/history');
 
 //modules
 const _ = require('lodash');
@@ -9,6 +10,12 @@ const _ = require('lodash');
 //get count 
 const getAllRooms = async (req, res) => {
     const data = await Campus.find().sort('name');
+    res.send(data);
+  };
+
+  //get history
+  const getHistory = async (req, res) => {
+    const data = await RoomHistory.find().sort('name');
     res.send(data);
   };
 
@@ -110,5 +117,5 @@ const getRoom = async (req, res) => {
 
 
   module.exports = {
-    getAllRooms, addRoom, getRoom
+    getAllRooms, addRoom, getRoom, getHistory
   };

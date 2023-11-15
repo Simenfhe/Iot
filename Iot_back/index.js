@@ -106,6 +106,12 @@ app.get('/sse/:room', async (req, res) => {
 
 
 
+
+
+
+
+
+
 //Running the server on a set port
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Listening on port ${port}`));
