@@ -13,7 +13,6 @@ const dateSchema = new mongoose.Schema({
 });
 
 const daySchema = new mongoose.Schema({
-    day: Number,
     date: [dateSchema]
 });
 
