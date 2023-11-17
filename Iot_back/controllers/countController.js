@@ -115,7 +115,7 @@ const setToHistory = async (payload) => {
       console.log(`Room not found ${data_room}`);
   }
 
-  console.log('historyRoom---', historyCampus);
+  console.log('historyRoom---', historyRoom.week_day[0]);
 
 //   const sampleData = {
 //     "name": "Gjøvik",
@@ -177,6 +177,8 @@ const setToHistory = async (payload) => {
 
 
 }
+
+//Gjøvik/Bygg 118/301
 
 const getCount = async (req,res) => {
   console.log("count")
