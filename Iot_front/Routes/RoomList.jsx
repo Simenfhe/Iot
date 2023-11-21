@@ -4,7 +4,7 @@ import './RoomList.css'
 import RoomCard from '../components/RoomCard/RoomCard';
 
 function RoomList() {
-    const [rooms, setRooms] = useState([])
+    const [data, setData] = useState([])
 
     function showChildren(e) {
         e.target.parentNode.children[1].classList.toggle('hidden')
@@ -18,13 +18,13 @@ function RoomList() {
 
     useEffect(() => {
         axios.get("/rooms").then((response) => {
-            setRooms(response.data)
+            setData(response.data)
         })
     }, [])
 
     return (
         <div>
-            {rooms.map((campus) => {
+            {data.map((campus) => {
                 return (
                     <div key={campus._id} className='campus' >
                         <h2 className='campustitle' onClick={(e) => { showChildren(e) }}>{campus.name}</h2>
@@ -38,9 +38,13 @@ function RoomList() {
                                                 <ul className='hidden'>
                                                     {building.rooms.map(room => {
                                                         return (
-                                                            <li className='roomtitle' key={room._id} onClick={(e) => { showChildren(e) }}>Room {room.roomNr}
-                                                                <RoomCard room={room} building={building.name} campus={campus.name} className='hidden' />
-                                                            </li>
+                                                            <>
+                                                                <li className='roomtitle' key={room._id} onClick={(e) => { showChildren(e) }}>Room {room.roomNr}
+                                                                    <RoomCard room={room} building={building.name} campus={campus.name} className='hidden' />
+                                                                </li>
+                                                                <li>{building.name}</li>
+                                                                <li>{campus.name}</li>
+                                                            </>
                                                         )
                                                     })}
                                                 </ul>

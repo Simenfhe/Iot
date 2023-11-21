@@ -20,7 +20,7 @@ const connectToMQTT = () => {
     reconnectPeriod: 1000,
   });
 
-  const count_update = 'count/update';
+  const count_update = 'count/update'; 
   const count_set = 'count/set';
 
   client.on('connect', () => {
