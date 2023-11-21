@@ -2,12 +2,13 @@ const mqtt = require('mqtt');
 const dotenv = require("dotenv").config();
 const {updateCount, setToHistory} = require('../controllers/countController');
 
-
+// CONNECT TO MQTT BROKER
 const connectToMQTT = () => {
   const host = process.env.MQTT_HOST;
   const mqttPort = process.env.MQTT_PORT;
-  const clientId = 'emqx_cloudcea9ea';
+  const clientId = process.env.MQTT_CLIENT_ID;
 
+  //CONNCTION URL AND OPTIONS
   const connectUrl = `wss://${host}:${mqttPort}/mqtt`;
   console.log(connectUrl)
   const client = mqtt.connect(connectUrl, {
@@ -19,10 +20,14 @@ const connectToMQTT = () => {
     reconnectPeriod: 1000,
   });
 
+  // TOPICS
   const count_update = 'count/update';
   const count_set = 'count/set';
   const setHistory = 'history/set'
 
+
+  //---------------------------------------------------------------------------------
+  //CONNECT TO MQTT AND SUBSCRIBE TO TOPICS
   client.on('connect', () => {
     console.log('--- Connected to MQTT broker');
 
@@ -37,6 +42,8 @@ const connectToMQTT = () => {
     });
   });
 
+  //---------------------------------------------------------------------------------
+  //RECIVE MESSAGE FROM MQTT
   client.on('message', async (topic, payload) => {
     console.log('Received Message:', topic, payload.toString());
     let string = payload.toString();
@@ -58,7 +65,6 @@ const connectToMQTT = () => {
     console.log('test:', payload.toString());
  
 
-//{"id":"5945","amount":"7"}
     
   });
 

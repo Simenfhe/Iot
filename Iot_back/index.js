@@ -6,11 +6,13 @@ const app = express();
 const cors = require("cors");
 const dotenv = require("dotenv").config();
 const SSE = require('sse')
-const { connectToMQTT } = require('./routers/mqtt');
 const {Room, validateRoom} = require('./models/room');
 const Redis = require("ioredis");
 const connect = require('./functions/connect');
+const {setToHistory } = require('./controllers/countController');
 
+const string = 'Gjøvik/Bygg 118/301'
+setToHistory(string);
 
 //---CONNECT TO REDIS, MONGO_DB AND MQTT 
 connect();
@@ -78,6 +80,9 @@ app.get('/sse/:room', async (req, res) => {
   res.write(`data: ${value}\n`);
   res.write(`id: ${counter}\n\n`);
   counter += 1;
+
+
+
 
   // Send a subsequent message every five seconds
   setInterval(async () => {

@@ -94,7 +94,7 @@ const setToHistory = async (payload) => {
     console.log(`Room not found ${data_room}`);
   }
   //update the room count
-
+  console.log('room', room)
   let count = room.count;
 
   console.log('count', count)
@@ -115,65 +115,32 @@ const setToHistory = async (payload) => {
       console.log(`Room not found ${data_room}`);
   }
 
-  console.log('historyRoom---', historyRoom.week_day[0]);
+  //historyRoom.week_day.push({date: { time: [{time: 14, count: 8, temperature: 20}]}})
 
-//   const sampleData = {
-//     "name": "Gjøvik",
-//     "buildings": [
-//         {
-//             "name": "Bygg 118",
-//             "location": "example",
-//             "rooms": [
-//                 {
-//                     "roomNr": "203",
-//                     "type": "group room",
-//                     "available": 12,
-//                     "count": 16
-//                 },
-//                 {
-//                     "roomNr": "207",
-//                     "type": "group room",
-//                     "available": 2,
-//                     "count": 16
-//                 },
-//                 {
-//                     "roomNr": "301",
-//                     "type": "group room",
-//                     "capacity": 21,
-//                     "roomId": 304,
-//                     "count": 4,
-//                     "week_day": [
-//                         {
-//                             "date": [
-//                                 {
-//                                     "date": 1345678765,
-//                                     "time": [
-//                                         {
-//                                             "time": 11,
-//                                             "count": count,
-//                                             "temperature": 22
-//                                         }
-//                                     ]
-//                                 }
-//                             ]
-//                         }
-//                     ]
-//                 }
-//             ]
-//         },
-//         {
-//             "name": "Bygg 121",
-//             "location": "borte"
-//         }
-//     ]
-// };
+  let now = new Date();
+  let week_day = now.getDay();
+  let hour = now.getHours();
+  now.setHours(1,0,0,0);
+  const date = now.getTime();
 
-// const newBuilding = new RoomHistory(sampleData)
-// newBuilding.save();
+ 
+  // console.log('week_day', week_day)
+  // console.log('timestamp', date)
+  // console.log('now', now)
+  const length_ofdate = historyRoom.week_day[week_day].date.length - 1;
+  // console.log('check', date, '-', historyRoom.week_day[week_day].date[length_ofdate].date)
 
-  //Gjøvik/Bygg 118/301
-  // console.log('historyRoom', historyRoom)
-  // historyCampus.save();
+
+  if(historyRoom.week_day[week_day].date[length_ofdate].date == date) {
+    console.log('date is the same')
+    historyRoom.week_day[week_day].date[0].time.push({time: hour, count: count, temperature: 18});
+  } else {
+    historyRoom.week_day[week_day].date[0] = {date: date, time: [{time: hour, count: count, temperature: 25}]};
+  }
+
+
+  historyCampus.save();
+  // console.log('historyRoom---', historyRoom.week_day[week_day].date[0]);
 
 
 }
