@@ -1,7 +1,6 @@
 const mqtt = require('mqtt');
 const dotenv = require("dotenv").config();
-const {Room, validateRoom} = require('../models/room');
-const {updateCount} = require('../controllers/countController');
+const {updateCount, setToHistory} = require('../controllers/countController');
 
 
 const connectToMQTT = () => {
@@ -22,12 +21,16 @@ const connectToMQTT = () => {
 
   const count_update = 'count/update'; 
   const count_set = 'count/set';
+  const setHistory = 'history/set'
 
   client.on('connect', () => {
     console.log('--- Connected to MQTT broker');
 
     client.subscribe([count_update], () => {
       console.log(`--- Subscribed to topic '${count_update}'`);
+    });
+    client.subscribe([setHistory], () => {
+      console.log(`--- Subscribed to topic '${setHistory}'`);
     });
     client.subscribe([count_set], () => {
       console.log(`--- Subscribed to topic '${count_set}'`);
@@ -45,24 +48,15 @@ const connectToMQTT = () => {
       case count_set:
         console.log('--count_set');
         break;
+      case setHistory:
+        setToHistory(string);
+        break;
       default:
         console.log('--Unknown topic:', topic);
     }
 
     console.log('test:', payload.toString());
-    // Parse the JSON payload into a JavaScript object
-    // const data = JSON.parse(payload.toString());
-    // console.log('ID:', data.id);
-    // console.log('Amount:', data.amount);
-    // let room = await Room.findOne({name: data.id});
-    // if(room) {
-    //   console.log(room);
-    //   room.available = data.amount;
-    //   room.save();
-    //   redis.set(data.id, data.amount, 'EX', 10).catch((error) => {
-    //   console.error('Error setting key-value pair in Redis:', error);
-    // });
-    // }
+ 
 
 //{"id":"5945","amount":"7"}
     
