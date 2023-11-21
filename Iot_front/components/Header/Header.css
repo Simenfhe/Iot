@@ -1,4 +1,4 @@
-nav {
+header {
     box-sizing: border-box;
     width: 100vw;
     background-color: var(--goof-yellah, #FFE4A1);
@@ -10,14 +10,12 @@ nav {
     box-sizing: border-box;
 }
 
-header {
-    width: 100%;
-}
+
 
 nav {
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    width: 90%;
 }
 
 nav ul li {
@@ -29,11 +27,6 @@ img {
     height: 15vw;
 }
 
-svg {
-    width: 15vw;
-    height: 15vw;
-}
-
-svg > *{
-    color: var(--dark-grey, #F3F3F3);
+#map {
+    /* margin-right: 3rem; */
 }
