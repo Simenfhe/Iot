@@ -13,11 +13,8 @@ const getAllRooms = async (req, res) => {
     res.send(data);
   };
 
-  //get history
-  const getHistory = async (req, res) => {
-    const data = await RoomHistory.find().sort('name');
-    res.send(data);
-  };
+
+
 
 //old
 const addRoom = async(req, res) => {
@@ -69,6 +66,7 @@ getRoomFromCookie = async (req, res) => {
 }
 
 
+
 // Get one specific room in a specific campus and building
         //Read the room that the user wants to get, and add a count to the room (most used), give the user a cookie with this room
 const getRoom = async (req, res) => {
@@ -117,5 +115,5 @@ const getRoom = async (req, res) => {
 
 
   module.exports = {
-    getAllRooms, addRoom, getRoom, getHistory
+    getAllRooms, addRoom, getRoom
   };

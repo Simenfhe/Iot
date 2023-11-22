@@ -117,13 +117,23 @@ const setToHistory = async (payload) => {
 
   //historyRoom.week_day.push({date: { time: [{time: 14, count: 8, temperature: 20}]}})
 
+  
+
   let now = new Date();
   let week_day = now.getDay();
   let hour = now.getHours();
   now.setHours(1,0,0,0);
-  const date = now.getTime();
+  let date = now.getTime();
+  
+  //---------REMOVE THIS WHEN DONE TESTING----------------
+//   let tomorrow = new Date();
+//   tomorrow.setDate(tomorrow.getDate() + 2);
+//   tomorrow.setHours(1,0,0,0);
+//   hour = 18;
+//   count = 24
+//  date = tomorrow.getTime();
+//-------------------------------------------------------
 
- 
   // console.log('week_day', week_day)
   // console.log('timestamp', date)
   // console.log('now', now)
@@ -133,9 +143,9 @@ const setToHistory = async (payload) => {
 
   if(historyRoom.week_day[week_day].date[length_ofdate].date == date) {
     console.log('date is the same')
-    historyRoom.week_day[week_day].date[0].time.push({time: hour, count: count, temperature: 18});
+    historyRoom.week_day[week_day].date[length_ofdate].time.push({time: hour, count: count, temperature: 18});
   } else {
-    historyRoom.week_day[week_day].date[0] = {date: date, time: [{time: hour, count: count, temperature: 25}]};
+    historyRoom.week_day[week_day].date.push({date: date, time: [{time: hour, count: count, temperature: 25}]});
   }
 
 
@@ -143,6 +153,47 @@ const setToHistory = async (payload) => {
   // console.log('historyRoom---', historyRoom.week_day[week_day].date[0]);
 
 
+}
+
+const getHistory = async (req,res) => {
+  console.log("history")
+  const history = "84"
+    res.send(history);
+
+    const campusId = req.params.campusId; // Extract the campus ID from the request
+    const buildingName = req.params.buildingId; // Extract the building ID from the request
+    const roomName = req.params.roomId; // Extract the room ID from the request
+
+    console.log('campusId', campusId)
+    console.log('buildingName', buildingName)
+    console.log('roomName', roomName)
+
+    //find the room
+  const campus = await RoomHistory.findOne({name: campusId});
+  if (!campus) {
+    console.log(`Campus not found ${campusId}`);
+  }
+  //find the building
+  const building = campus.buildings.find((building) => building.name === buildingName);
+  if (!building) {
+    console.log(`Building not found ${buildingName}`);
+  }
+  //find the room
+  const room = building.rooms.find((room) => room.roomNr == roomName);
+  if (!room) {
+    console.log(`Room not found ${roomName}`);
+  }
+
+  console.log('room', room)
+
+  let now = new Date();
+  let week_day = now.getDay();
+
+  //---------REMOVE THIS WHEN DONE TESTING----------------
+  week_day = 3;
+
+  let data = room.week_day[week_day]
+  console.log('data', data)
 }
 
 //Gjøvik/Bygg 118/301
@@ -163,5 +214,5 @@ const getAir = async (req,res) => {
 }
 
 module.exports = {
-  getCount, getTemp, getAir, updateCount, setToHistory
+  getCount, getTemp, getAir, updateCount, setToHistory, getHistory
 };
