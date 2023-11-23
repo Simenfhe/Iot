@@ -44,7 +44,6 @@ function LandingPage() {
     return (
         <main>
             <h1>Vælkømmin til gaars</h1>
-            <Meter percentage="90" />
             <ul>
                 <li>Det er {count}stk i rommet</li>
                 <li>Det er {temp} grader der</li>
