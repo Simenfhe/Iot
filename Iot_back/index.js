@@ -29,7 +29,7 @@ const rooms = require("./routers/roomRouter");
 //Adding settings for the CORS
 app.use(
   cors({
-    origin: [process.env.CORS_ORIGIN,"*"],
+    origin: [process.env.CORS_ORIGINS,"*"],
     credentials: true,
   })
 );
@@ -90,8 +90,8 @@ app.get('/sse/:room', async (req, res) => {
         res.write(`data: ${value}\n`);
         res.write(`id: ${counter}\n\n`); }
     }
-    console.log('sse running');
-    console.log('counter: ', counter)
+    // console.log('sse running');
+    // console.log('counter: ', counter)
     
     counter += 1;
   }, 1000);

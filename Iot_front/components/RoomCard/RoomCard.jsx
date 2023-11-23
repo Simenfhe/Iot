@@ -11,8 +11,8 @@ function RoomCard(props) {
         percentage = props.room.roomcurrent / props.room.roommax * 100
     }
     console.log("room", props.room)
-    console.log("campus", props.campus)
-    console.log("building", props.building)
+    // console.log("campus", props.campus)
+    // console.log("building", props.building)
 
     return (
         <div>
