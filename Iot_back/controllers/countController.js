@@ -74,9 +74,9 @@ const setToHistory = async (payload) => {
   const data_building = data[1];
   const data_room = data[2];
 
-  console.log(`campus: ${data_campus}`);
-  console.log(`building: ${data_building}`);
-  console.log(`room: ${data_room}`);
+  // console.log(`campus: ${data_campus}`);
+  // console.log(`building: ${data_building}`);
+  // console.log(`room: ${data_room}`);
 
   //find the room
   const campus = await Campus.findOne({name: data_campus});
@@ -94,7 +94,7 @@ const setToHistory = async (payload) => {
     console.log(`Room not found ${data_room}`);
   }
   //update the room count
-  console.log('room', room)
+  // console.log('room', room)
   let count = room.count;
 
   console.log('count', count)
@@ -126,12 +126,7 @@ const setToHistory = async (payload) => {
   let date = now.getTime();
   
   //---------REMOVE THIS WHEN DONE TESTING----------------
-//   let tomorrow = new Date();
-//   tomorrow.setDate(tomorrow.getDate() + 2);
-//   tomorrow.setHours(1,0,0,0);
-//   hour = 18;
-//   count = 24
-//  date = tomorrow.getTime();
+ 
 //-------------------------------------------------------
 
   // console.log('week_day', week_day)
@@ -149,9 +144,12 @@ const setToHistory = async (payload) => {
   }
 
 
-  historyCampus.save();
-  // console.log('historyRoom---', historyRoom.week_day[week_day].date[0]);
-
+  try {
+    await historyCampus.save();
+    console.log('Data saved successfully');
+} catch (error) {
+    console.error('Error saving data:');
+}
 
 }
 
@@ -184,18 +182,60 @@ const getHistory = async (req,res) => {
     console.log(`Room not found ${roomName}`);
   }
 
-  console.log('room', room)
-
   let now = new Date();
   let week_day = now.getDay();
 
   //---------REMOVE THIS WHEN DONE TESTING----------------
-  week_day = 3;
+  week_day = 6;
 
-  let data = room.week_day[week_day]
-  console.log('data', data)
+  //find day from 6 weeks ago
+  let limit = new Date();
+  limit.setDate(limit.getDate() - 42);
+  limit.setHours(1,0,0,0);
+  let limit_date = limit.getTime();
+
+  console.log('limit', limit_date)
+
+  let data = room.week_day[week_day].date[0].date;
+  
+  //sort out the object to only contain the last 6 weeks
+  while(data < limit_date) {
+    room.week_day[week_day].date.shift();
+    data = room.week_day[week_day].date[0].date;
+  }
+
+  let avg_data = room.week_day[week_day];
+  let avg_array = []
+
+  let sum = 0;
+  let count = 0;
+  //collect the average for every hour to be in a histogram
+  for(let i = 0; i < 22; i++) {
+    count = 0;
+    sum = 0;
+    console.log('test', avg_data.date.length)
+    console.log('i', i)
+    console.log('--------------------------------------------------------------------------')
+    console.log('++++', avg_data.date[i])
+    for(let j = 0; j < avg_data.date.length; j++) {
+      console.log('---------', j)
+      
+      sum += avg_data.date[j].time[i].count;
+      count++;
+    }
+    if(count != 0) {
+      avg_data.date[0].time[i].count = Math.round(sum/count);
+    }
+    //push the avg to the array
+    let average = sum/count;
+    console.log('average', average)
+    avg_array.push(average);
+  }
+
+
+
+  console.log('room', room.week_day[week_day].date)
 }
-
 //Gjøvik/Bygg 118/301
 
 const getCount = async (req,res) => {
@@ -216,3 +256,45 @@ const getAir = async (req,res) => {
 module.exports = {
   getCount, getTemp, getAir, updateCount, setToHistory, getHistory
 };
+
+//---------USED TO FILL IN DATA----------------
+/*
+ week_day = 5;
+  let tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(1,0,0,0);
+
+  //empty the array historyRoom.week_day[6].date
+  historyRoom.week_day[week_day].date = [];
+
+  //loop throug every 7th day and add an object for every hour to the array starting from 8 weeks ago
+  for(let i = 0; i < 12; i++) {
+    let limit = new Date();
+    limit.setDate(limit.getDate() - (i*7 + 84)); //84 is 12 weeks
+    limit.setHours(1,0,0,0);
+    let limit_date = limit.getTime();
+    //loop through every hour
+    for(let j = 0; j < 24; j++) {
+      //if j < 8 then count is 0. j between 8 and 12 is random between 4 and 18. j between 13 and 16 random is between 12 and 25.j > 16 is random between 0 and 5
+      let random = 0;
+      if(j >= 8 && j < 12) {
+        random = Math.floor(Math.random() * (18 - 4 + 1)) + 4;
+      } else if(j >= 13 && j < 16) {
+        random = Math.floor(Math.random() * (25 - 12 + 1)) + 12;
+      } else if(j >= 16) {
+        random = Math.floor(Math.random() * (5 - 0 + 1)) + 0; 
+      }
+      if (j == 0) {
+        historyRoom.week_day[week_day].date.push({date: limit_date, time: [{time: j, count: random, temperature: 18}]});
+      }
+      else {
+        let length = historyRoom.week_day[week_day].date.length - 1;
+        historyRoom.week_day[week_day].date[length].time.push({time: j, count: random, temperature: 18});
+      }
+    }
+  }
+
+
+ date = tomorrow.getTime();
+*/
+//

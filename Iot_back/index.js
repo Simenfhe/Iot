@@ -15,7 +15,7 @@ const {setToHistory } = require('./controllers/countController');
 // const string = 'Gjøvik/Bygg 118/301'
 // setToHistory(string);
 
-//---CONNECT TO REDIS, MONGO_DB AND MQTT
+//---CONNECT TO REDIS, MONGO_DB AND MQTT 
 connect();
  
 const redis = new Redis(
