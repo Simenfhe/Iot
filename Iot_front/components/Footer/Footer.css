@@ -1,9 +1,20 @@
 .footer {
     width: 100vw;
     margin-top: auto;
-    background-color: #0F7173;
+    background-color: var(--goof-yellah);
     padding: 1rem;
 }
+
+.sock {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #F3F3F3;
+    padding: 0 1rem;
+    justify-content: space-between;
+}
+
+
 
 .footer p {
     color: black;

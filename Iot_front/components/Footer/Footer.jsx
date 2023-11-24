@@ -4,7 +4,10 @@ import React from "react";
 function Footer() {
     return (
         <div className='footer'>
-            <p>Jeg savner moren til håvard jeg</p>
+            <div className="sock">
+                <p>søk...</p>
+                <embed src="/search.svg" type="" />
+            </div>
         </div>
     )
 }
