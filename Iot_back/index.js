@@ -53,6 +53,8 @@ app.get('/sse/:campusId/:buildingName/:roomName', async (req, res) => {
   const buildingName = req.params.buildingName; // Extract the building ID from the request
   const roomName = req.params.roomName; // Extract the room ID from the request
 
+  const roomString = `${campusId}/${buildingName}/${roomName}`;
+
   try {
   const data = await findRoom(campusId, buildingName, roomName);
   const room = data.room;
@@ -68,14 +70,13 @@ app.get('/sse/:campusId/:buildingName/:roomName', async (req, res) => {
   }
 
 
-
-
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',
     'Connection': 'keep-alive',
     'Cache-Control': 'no-cache',
     'Access-Control-Allow-Origin': '*',
   });
+
 
   let counter = 0;
 
@@ -87,15 +88,16 @@ app.get('/sse/:campusId/:buildingName/:roomName', async (req, res) => {
 
   let interval;
 
-req.on('close', () => {
-  clearInterval(interval);
-  res.end('OK');
-});
+  //end interval if user closes the connection
+  res.on('close', () => {
+    clearInterval(interval);
+    console.log('sse closed');
+  });
 
   // Send a subsequent message every five seconds
   interval = setInterval(async () => {
-    if(redis.get(roomName)) {
-      cashe_value = await redis.get(roomName);
+    if(redis.get(roomString)) {
+      cashe_value = await redis.get(roomString);
       console.log('cashe_value: ', cashe_value)
       if(value != cashe_value & cashe_value != null) 
       { value = cashe_value;
@@ -116,16 +118,6 @@ req.on('close', () => {
   // Close the connection when the client disconnects
   req.on('close', () => res.end('OK'));
 });
-
-
-
-
-
-
-
-
-
-
 
 
 
