@@ -1,4 +1,4 @@
-import './RoomCard.css'
+import './mapcard.css'
 import React from 'react'
 import { useEffect } from 'react'
 import Occupancymeter from '../Occupancymeter/Occupancymeter'
@@ -6,7 +6,8 @@ import AudioMeter from '../Audiometer/Audiometer'
 import Temperatur from '../Tempmeter/Temperatur'
 import Histogram from '../Histogram/Histogram'
 
-function RoomCard(props) {
+function Mapcard(props) {
+    console.log("hgallo")
     console.log(props.room)
     // if (props.room) {
     //     percentage = props.room.roomcurrent / props.room.roommax * 100
@@ -23,28 +24,18 @@ function RoomCard(props) {
 
 
     return (
-        <div className='roomcard'>
-            <div className='roomcard-title'>
-                <h3 className='roomtext'> Rom {props.room.roomNr}</h3>
-                <div className="symbols">
-                    <Occupancymeter percentage={percent} />
-                    <AudioMeter audio={audio} />
-                    <Temperatur temp={temp} />
-                </div>
-            </div>
-
-            {/* <div className="above"><Occupancymeter percentage={percent} /> <p>{available} av {props.room.capacity} plasser ledige</p></div> */}
-            <div className="hidden extendedcontainer">
-                {props.room.capacity && <div className="above"><Occupancymeter percentage={percent} /> <p>{available} av {props.room.capacity} plasser ledige</p></div>}
-                <div className="histogramcontainer">
+        <div className='roomcard1'>
+            <div className="extendedcontainer1">
+                {props.room.capacity && <div className="above1 "><Occupancymeter percentage={percent} /> <p className='mapabove'>{available} av {props.room.capacity} plasser ledige</p></div>}
+                <div className="histogramcontainer1">
                     <Histogram histogram={props.histogram} name={props.room.roomNr} capacity='50' />
                 </div>
-                <div className="bottomcontainer">
-                    <div className="textcontainer">
+                <div className="bottomcontainer1">
+                    <div className="textcontainer1">
                         <li><p>Temperatur:</p> <p>{temp}C°</p> </li>
                         <li><p>Lydnivå:</p> <p>{audio}dB</p> </li>
                     </div>
-                    <div className="symbolcontainer">
+                    <div className="symbolcontainer1">
                         <AudioMeter audio={audio} />
                         <Temperatur temp={temp} />
                     </div>
@@ -57,4 +48,4 @@ function RoomCard(props) {
     )
 }
 
-export default RoomCard
+export default Mapcard

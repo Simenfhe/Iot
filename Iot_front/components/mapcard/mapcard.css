@@ -1,7 +1,6 @@
-.roomcard-title {
-    display: flex;
-    justify-content: space-between;
-    height: 3rem;
+.roomcard1 {
+    width: 95vw;
+    margin: 0 auto;
 }
 
 .symbols {
@@ -18,63 +17,70 @@
 }
 
 .roomtext,
-.textcontainer p,
-.above p {
+.textcontainer1 p {
     color: rgb(255, 255, 255);
 }
 
-.histogramcontainer,
-.textcontainer,
-.symbolcontainer {
-    background-color: #5C6E5D;
+.histogramcontainer1,
+.textcontainer1,
+.symbolcontainer1 {
+    background-color: rgb(71, 71, 71) !important;
     border-radius: 10px;
 }
 
-.extendedcontainer {
+.extendedcontainer1 {
     display: flex;
     flex-direction: column;
 }
 
-.bottomcontainer {
+.bottomcontainer1 {
     margin-top: 0.5rem;
     display: grid;
     grid-template-columns: 3fr 1.5fr;
     gap: 0.5rem;
 }
 
-.bottomcontainer>* {
+.bottomcontainer1>* {
     width: 100%;
 }
 
-.textcontainer {
+.textcontainer1 {
     display: flex;
     flex-direction: column;
 }
 
-.textcontainer li {
+.textcontainer1 li {
     display: flex;
     justify-content: space-between;
     padding: 0.7rem 1rem;
 }
 
-.symbolcontainer {
+.symbolcontainer1 {
     display: grid;
     grid-template-columns: 1fr 1fr;
     place-items: center;
 }
 
-.symbolcontainer>* {
+.symbolcontainer1>* {
     place-self: center;
     transform: scale(1.8);
 }
 
-.above {
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    background-color: #FFE4A1;
+
+}
+
+.mapabove {
+    color: black;
+}
+
+.above1 {
     display: flex;
     gap: 0.5rem;
     text-align: center;
     align-items: center;
-}
-
-.hidden {
-    display: none;
 }

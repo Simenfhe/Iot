@@ -4,26 +4,25 @@ import './Histogram.css'
 
 function Histogram(props) {
 
-    const [histogram, setHistogram] = useState([])
+    const [histogram, setHistogram] = useState([props.histogram])
     useEffect(() => {
         setHistogram(props.histogram)
-    }, [props.histogram])
-
-
-    for (let i = 5; i < props.histogram.length - 1; i++) {
-        // [i].style.backgroundColor = "red"
-        let height = props.histogram[i] / props.capacity * 100
-        try {
-            const el = document.querySelectorAll(".bars li")[i]
-            el.style.height = height + "%"
-        } catch (e) {
+        for (let i = 5; i < histogram[0].length - 1; i++) {
+            let height = histogram[0][i] / props.capacity * 100
+            try {
+                const el = document.querySelectorAll(`.rom${props.name} li`)[i]
+                el.style.height = height + "%"
+            } catch (e) {
+                console.log(e)
+            }
         }
-    }
+    }, [])
+
 
     return (
         <><div className='histogram-container'>
             <div className='histogram'>
-                <ul className="bars">
+                <ul className={`bars rom${props.name}`} >
                     <li></li>
                     <li></li>
                     <li></li>
@@ -43,7 +42,7 @@ function Histogram(props) {
                     <li></li>
                     <li></li>
                 </ul>
-                <embed src="/histogramlinje.svg" type="" />
+                <embed id="histogramlinje" src="/histogramlinje.svg" type="" />
             </div>
         </div>
         </>

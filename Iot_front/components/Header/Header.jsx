@@ -11,9 +11,9 @@ function Header() {
     useEffect(() => {
         const path = location.pathname
         if (path === "/") {
-            setNavElem(<Link to="/roomlist" ><img id="map" src="/Mapsymbol.svg" alt="" /></Link>)
+            setNavElem(<Link to="/roomlist" ><img id="map" src="/Hamburger.svg" alt="" /></Link>)
         } else if (path === "/roomlist") {
-            setNavElem(<Link to="/" ><img id="map" src="/Hamburger.svg" alt="" /></Link>)
+            setNavElem(<Link to="/" ><img id="map" src="/Mapsymbol.svg" alt="" /></Link>)
         }
     }, [location.pathname])
 

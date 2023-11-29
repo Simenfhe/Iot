@@ -29,8 +29,13 @@
 }
 
 .roomtitle {
-    background-color: var(--dark-grey);
+    background-color: #312C1F;
     color: #F1F1F2;
     font-size: 1.3rem;
     margin-left: 3rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.larger {
+    margin: 0 0.5rem;
 }

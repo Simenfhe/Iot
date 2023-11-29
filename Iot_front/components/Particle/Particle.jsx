@@ -5,17 +5,12 @@ import { useCallback } from 'react';
 
 
 const RoomParticles = ({ id, speed, intensity }) => {
-    console.log(intensity)
-    console.log(speed)
-    console.log(id)
 
     const particlesInit = useCallback(async engine => {
-        console.log(engine);
         await loadSlim(engine);
     }, []);
 
     const particlesLoaded = useCallback(async (container) => {
-        await console.log(container);
     }, []);
     return (
         <Particles
@@ -56,7 +51,7 @@ const RoomParticles = ({ id, speed, intensity }) => {
                 },
                 particles: {
                     color: {
-                        value: "#378805",
+                        value: "rgba(16, 203, 0, 0.75)",
                     },
                     links: {
                         color: "#ffffff",

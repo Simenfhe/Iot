@@ -1,89 +1,116 @@
 import './Map.css'
-import React from 'react'
-import { useEffect } from 'react'
-import { useState } from 'react'
-import RoomCard from '../RoomCard/RoomCard'
+import React, { useEffect, useState } from 'react'
 import RoomParticles from '../Particle/Particle'
+import axios from '../../functions/axios';
+import Mapcard from '../mapcard/mapcard';
 
 function Map() {
-    const [currentRoom, setCurrentRoom] = useState()
-    const [modalOpen, setModalOpen] = useState(false)
+    const [data, setData] = useState();
+    const [modalOpen, setModalOpen] = useState(false);
 
-    let katedralen = { roomcurrent: 10, roommax: 30, roomid: 69420, roomtemp: 22 }
-    let mezza = { roomcurrent: 40, roommax: 60, roomid: 666, roomtemp: 55 }
-    // rooms.addEventListener("click", showRoomInfo)
+    const katedralen = { roomcurrent: 10, roommax: 30, roomId: 69420, axios: "/Gjøvik/Bygg 118/301" };
+    const mezza = { roomcurrent: 40, roommax: 60, roomId: 666, roomtemp: 55, axios: "/Gjøvik/Bygg 118/203" };
+    const histogram = [0, 0, 3, 5, 12, 2, 4, 7, 12, 24, 25, 27, 21, 22, 23, 25, 14, 11, 7, 6, 5, 0, 3, 1]
+
+
+
+
+    const temp1 = 22
+    const temp2 = 25
+    const audio1 = 45
+    const audio2 = 55
+    const percent1 = 35
+    const percent2 = 55
+
+
+
 
     useEffect(() => {
+        const elmnt = document.getElementById("mappern");
 
-        dragElement(document.getElementById("mappern"));
-        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-        var elmnt = document.getElementById("mappern");
+        let startX, startY;
+        let isDragging = false;
 
-        function dragElement(elmnt) {
-            elmnt.onmousedown = dragMouseDown;
-            elmnt.ontouchstart = dragMouseDown;
+        function startDrag(e) {
+            isDragging = false;
+
+            startX = e.touches ? e.touches[0].clientX : e.clientX;
+            startY = e.touches ? e.touches[0].clientY : e.clientY;
+
+            document.addEventListener("mousemove", drag);
+            document.addEventListener("mouseup", endDrag);
+
+            document.addEventListener("touchmove", drag);
+            document.addEventListener("touchend", endDrag);
         }
 
-        function dragMouseDown(e) {
-            e.preventDefault();
-            console.log(e.type)
-            if (e.type === 'touchstart') {
-                pos3 = e.touches[0].clientX;
-                pos4 = e.touches[0].clientY;
-            } else {
-                pos3 = e.clientX;
-                pos4 = e.clientY;
+        function drag(e) {
+            const currentX = e.touches ? e.touches[0].clientX : e.clientX;
+            const currentY = e.touches ? e.touches[0].clientY : e.clientY;
+
+            const deltaX = currentX - startX;
+            const deltaY = currentY - startY;
+
+            if (!isDragging && (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5)) {
+                isDragging = true;
             }
 
-            document.onmouseup = closeDragElement;
-            document.ontouchend = closeDragElement;
-
-            document.onmousemove = elementDrag;
-            document.ontouchmove = elementDrag;
-        }
-
-        function elementDrag(e) {
-
-            if (e.type === 'touchmove') {
-                var clientX = e.touches[0].clientX;
-                var clientY = e.touches[0].clientY;
-            } else {
-                var clientX = e.clientX;
-                var clientY = e.clientY;
+            if (isDragging) {
+                elmnt.style.left = elmnt.offsetLeft + deltaX + "px";
+                elmnt.style.top = elmnt.offsetTop + deltaY + "px";
             }
 
-            pos1 = pos3 - clientX;
-            pos2 = pos4 - clientY;
-            pos3 = clientX;
-            pos4 = clientY;
-
-            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-
+            startX = currentX;
+            startY = currentY;
         }
 
-        function closeDragElement() {
-            document.onmouseup = null;
-            document.ontouchend = null;
-            document.onmousemove = null;
-            document.ontouchmove = null;
+        function endDrag(e) {
+
+            document.removeEventListener("mousemove", drag);
+            document.removeEventListener("mouseup", endDrag);
+
+            document.removeEventListener("touchmove", drag);
+            document.removeEventListener("touchend", endDrag);
         }
 
+        // Add click event listeners to child elements
+        const child1 = document.querySelector("#katedralen");
+        const child2 = document.querySelector("#mezza");
 
-    }, [])
+        child1.addEventListener("click", () => handleChildClick(katedralen));
+        child2.addEventListener("click", () => handleChildClick(mezza));
+
+        function handleChildClick(room) {
+            axios.get(`/rooms${room.axios}`).then((response) => {
+                console.log(response.data)
+                if (response.data) {
+                    console.log("halla")
+                    setData(response.data)
+                }
+                console.log(data)
+
+            })
 
 
 
-    function showRoomInfo(room) {
-        setModalOpen(true)
-        setCurrentRoom(room)
-    }
+            setModalOpen(true);
+        }
+
+        elmnt.addEventListener("mousedown", startDrag);
+        elmnt.addEventListener("touchstart", startDrag);
+
+        return () => {
+            elmnt.removeEventListener("mousedown", startDrag);
+            elmnt.removeEventListener("touchstart", startDrag);
+
+            child1.removeEventListener("click", () => handleChildClick(katedralen));
+            child2.removeEventListener("click", () => handleChildClick(mezza));
+        };
+    }, [katedralen, mezza]);
 
     function closeModal() {
-        setModalOpen(false)
+        setModalOpen(false);
     }
-
-
 
     return (
         <>
@@ -92,12 +119,12 @@ function Map() {
                     <svg className='map' viewBox="0 0 715 500" fill="none" xmlns="http://www.w3.org/2000/svg">
 
                         <g>
-                            <path className="mapelement room" id="katedralen" onClick={() => showRoomInfo(katedralen)} d="M58.5 110.5L217 46.9999L340.5 0.5L383 21L422 115.5L142.5 226.996L104 126.5L70.5 140L58.5 110.5Z" fill="currentColor" stroke='#494949' strokeWidth={'3px'} />
+                            <path className="mapelement room" id="katedralen" d="M58.5 110.5L217 46.9999L340.5 0.5L383 21L422 115.5L142.5 226.996L104 126.5L70.5 140L58.5 110.5Z" fill="currentColor" stroke='#494949' strokeWidth={'3px'} />
 
-                            <foreignObject x="200" y="50">
+                            <foreignObject id='foreignkatedralen' x="200" y="50">
                                 <RoomParticles id="katedralen" intensity={50} speed={1} />
                             </foreignObject>
-
+                            <rect className="svglabel-back" x="165" y="82" width="160" height="50" rx={10} fill="currentcolor" />
                             <text className='svglabel' x='200' y='100' fill='black' > Katedralen</text>
                             <text className='svglabel' x='180' y='125' fill='black'> (Mustad bygg 118)</text>
 
@@ -105,10 +132,11 @@ function Map() {
 
                         </g>
                         <g>
-                            <path className="mapelement room" id="mezza" onClick={() => showRoomInfo(mezza)} d="M322 163.5L429.5 122L433 125.5L551 79L629.5 47.5L715 247.504L435.5 359L312.5 404L305 389L252 408.5L201 285.5L345.5 226.5L322 163.5Z" fill="currentColor" stroke='#494949' strokeWidth={'3px'} />
-                            <foreignObject x="400" y="200">
+                            <path className="mapelement room" id="mezza" d="M322 163.5L429.5 122L433 125.5L551 79L629.5 47.5L715 247.504L435.5 359L312.5 404L305 389L252 408.5L201 285.5L345.5 226.5L322 163.5Z" fill="currentColor" stroke='#494949' strokeWidth={'3px'} />
+                            <foreignObject id='foreignmezza' x="350" y="150">
                                 <RoomParticles id="mezza" intensity={15} speed={2} />
                             </foreignObject>
+                            <rect className="svglabel-back" x="385" y="202.5" width="160" height="50" rx={10} fill="currentcolor" />
                             <text className='svglabel' x='420' y='220' fill='black' > Mezaninen</text>
                             <text className='svglabel' x='400' y='245' fill='black'> (Mustad bygg 118)</text>
                         </g>
@@ -119,10 +147,12 @@ function Map() {
                 </div>
             </div>
             {modalOpen && (
-                <>
-                    <RoomCard room={currentRoom} />
-                    <button onClick={closeModal}>Close</button>
-                </>
+                <div className='modal'>
+                    {data && <h2 className="modaltitle"> <p>Rom {data.roomNr}</p><button id="modalclose" onClick={closeModal}>X</button></h2>}
+                    {data && <Mapcard room={data} histogram={histogram} />}
+
+
+                </div>
             )}
 
         </>
