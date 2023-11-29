@@ -31,7 +31,7 @@ const rooms = require("./routers/roomRouter");
 //Adding settings for the CORS
 app.use(
   cors({
-    origin: [process.env.CORS_ORIGINS,"*"],
+    origin: [process.env.CORS_ORIGIN,"*"],
     credentials: true,
   })
 );

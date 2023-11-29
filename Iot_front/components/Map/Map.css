@@ -18,11 +18,14 @@
     overflow: hidden;
     height: 80vh;
     width: 100vw;
+    z-index: 1;
 }
 
 .svglabel {
     font-family: Neue Haas Unica Pro regular;
     font-weight: 700;
+    position: relative;
+    z-index: 2;
 }
 
 .mapelement {
@@ -36,4 +39,9 @@
 
 .hallway {
     color: var(--Goof-Blue-400);
+}
+
+foreignObject {
+    width: 100px;
+    height: 100px;
 }
