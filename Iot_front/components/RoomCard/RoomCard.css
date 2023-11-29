@@ -1,0 +1,36 @@
+.histogram-container {
+    width: 300px;
+    height: 210px;
+    display: grid;
+    align-items: center;
+    /* transform: scale(2); */
+}
+
+.histogram {
+
+    display: flex;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.bars {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 2.2%;
+    margin-right: 1.9%;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+}
+
+.bars li {
+    background-color: #7F9FF0;
+    border: 1px solid transparent;
+    width: 100%;
+    margin: 0 1px;
+    border-radius: 4px 4px 0 0;
+}

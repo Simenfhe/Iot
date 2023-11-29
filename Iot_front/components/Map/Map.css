@@ -1,4 +1,47 @@
 .map {
-    width: 80vw;
+    width: 250vw;
     height: auto;
+
+    z-index: -10;
+}
+
+#mappern {
+    position: absolute;
+    width: 50vw;
+    height: auto;
+    top: 10%;
+    left: -70%;
+}
+
+.mapwrap {
+    position: relative;
+    overflow: hidden;
+    height: 80vh;
+    width: 100vw;
+    z-index: 1;
+}
+
+.svglabel {
+    font-family: Neue Haas Unica Pro regular;
+    font-weight: 700;
+    position: relative;
+    z-index: 2;
+}
+
+.mapelement {
+    color: #a5a5a5;
+}
+
+.room:hover {
+    color: #FFF;
+    cursor: pointer;
+}
+
+.hallway {
+    color: var(--Goof-Blue-400);
+}
+
+foreignObject {
+    width: 100px;
+    height: 100px;
 }
