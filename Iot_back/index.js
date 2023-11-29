@@ -103,10 +103,9 @@ req.on('close', () => {
         res.write(`data: ${value}\n`);
         res.write(`id: ${counter}\n\n`); }
     }
+
     console.log('sse running');
     console.log('counter: ', counter)
-
-    
     
     counter += 1;
   }, 1000);

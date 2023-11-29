@@ -1,7 +1,8 @@
 header {
-    box-sizing: border-box;
     width: 100vw;
     background-color: var(--goof-yellah, #FFE4A1);
+    padding: 1rem;
+    padding-bottom: 0;
 }
 
 * {

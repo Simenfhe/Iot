@@ -16,6 +16,7 @@ body {
     --main-color-darkest: #ff8d8d;
     --main-color-darkest: white;
     --goof-yellah-200: #A69469;
+    --Goof-Blue-400: #1F2531
 }
 
 @font-face {
@@ -62,21 +63,4 @@ li {
 
 a {
     text-decoration: none;
-}
-
-a:hover {
-    color: #fff2c8;
-}
-
-.mapelement {
-    color: rgb(183, 183, 183);
-}
-
-.room:hover {
-    color: #8d8dff;
-    cursor: pointer;
-}
-
-.hallway {
-    color: #aaff64;
 }
