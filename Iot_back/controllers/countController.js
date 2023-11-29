@@ -199,9 +199,7 @@ const getHistory = async (req,res) => {
   
   //sort out the object to only contain the last 6 weeks
   while(date < limit_date) {
-    //console.log amount of days difference between limit and date
-    let diff = Math.floor((limit_date - date) / (1000 * 60 * 60 * 24));
-    console.log('diff', diff)
+
     room.week_day[week_day].date.shift();
     date = room.week_day[week_day].date[0].date;
   }
@@ -228,8 +226,7 @@ const getHistory = async (req,res) => {
       avg_data.date[0].time[i].count = Math.round(sum/count);
     }
     //push the avg to the array, and have it rounded to whole number
-
-    let average =Math.round(sum/count);
+    let average = Math.round(sum/count);
 
     console.log('average', average)
     avg_array.push(average);
