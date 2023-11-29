@@ -18,8 +18,9 @@ function LandingPage() {
 
         const eventSource = new EventSource("http://localhost:5000/sse/5945");
         eventSource.onmessage = (event) => {
-            setAir(event.data);
-            console.log(event)
+            setAir(event.data.air);
+            setTemp(event.data.temp);
+            setCount(event.data.count);
         };
 
         return () => {

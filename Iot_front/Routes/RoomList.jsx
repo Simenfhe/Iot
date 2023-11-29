@@ -67,7 +67,7 @@ function RoomList() {
                 })}
             </div>
             <Occupancymeter percentage='76' />
-            <Particles
+            {/* <Particles
                 // style={
                 //     width = "50%"
                 // }
@@ -143,7 +143,7 @@ function RoomList() {
                     },
                     detectRetina: true,
                 }}
-            />
+            /> */}
         </>
     )
 
