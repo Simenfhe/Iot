@@ -2,13 +2,18 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  getCount, getTemp, getAir
+  getCount, getTemp, getAir, getHistory
 } = require("../controllers/countController");
+
+
+//router.put("/add", addToCount)
+//router.put("/subtract", subtractToCount)
+
+//get history of a room 
+router.get("/history/:campusId/:buildingId/:roomId", getHistory);
 
 //ALL count 
 router.get("/", getCount);
-//router.put("/add", addToCount)
-//router.put("/subtract", subtractToCount)
 
 router.get("/temp", getTemp);
 
