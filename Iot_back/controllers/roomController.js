@@ -2,7 +2,7 @@
 const {Room, validateRoom} = require('../models/room');
 const Campus = require('../models/campus');
 const RoomHistory = require('../models/history');
-const findRoom = require('../functions/findRoom');
+const {findRoom} = require('../functions/findRoom');
 
 //modules
 const _ = require('lodash');

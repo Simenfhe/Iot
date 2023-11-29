@@ -13,7 +13,7 @@ function Histogram(props) {
                 const el = document.querySelectorAll(`.rom${props.name} li`)[i]
                 el.style.height = height + "%"
             } catch (e) {
-                console.log(e)
+                // console.log(e)
             }
         }
     }, [])

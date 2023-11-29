@@ -14,7 +14,6 @@ function RoomList() {
 
     function showChildren(e) {
         e.target.parentNode.children[1].classList.toggle('hidden')
-        console.log(e.target.parentNode.parentNode)
         if (e.target.classList[0] === 'roomcard-title') {
             e.target.parentNode.parentNode.classList.toggle('larger')
             e.target.children[1].classList.toggle('hidden')

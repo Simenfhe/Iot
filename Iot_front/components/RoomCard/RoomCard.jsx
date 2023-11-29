@@ -7,7 +7,7 @@ import Temperatur from '../Tempmeter/Temperatur'
 import Histogram from '../Histogram/Histogram'
 
 function RoomCard(props) {
-    console.log(props.room)
+    // console.log(props.room)
     // if (props.room) {
     //     percentage = props.room.roomcurrent / props.room.roommax * 100
     // }
