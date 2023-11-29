@@ -5,7 +5,7 @@ const roomSchema = new mongoose.Schema({
   type: String,
   capacity: Number,
   count: Number,
-  roomNr: Number
+  roomNr: String
 });
 
 // Define the Buildings subdocument schema, including the 'rooms' field as an array of Room subdocuments

@@ -1,5 +1,5 @@
 .map {
-    width: 250vw;
+    width: 175vw;
     height: auto;
 
     z-index: -10;
@@ -81,4 +81,12 @@
     font-size: 2rem;
     background-color: transparent;
     border: none;
+}
+
+.modal {
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    width: 100%;
+    z-index: 100;
 }

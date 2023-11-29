@@ -8,8 +8,8 @@ function Map() {
     const [data, setData] = useState();
     const [modalOpen, setModalOpen] = useState(false);
 
-    const katedralen = { roomcurrent: 10, roommax: 30, roomId: 69420, axios: "/Gjøvik/Bygg 118/301" };
-    const mezza = { roomcurrent: 40, roommax: 60, roomId: 666, roomtemp: 55, axios: "/Gjøvik/Bygg 118/203" };
+    const katedralen = { roomcurrent: 10, roommax: 30, roomId: 69420, axios: "/Gjøvik/Bygg 118/Mesaninen" };
+    const mezza = { roomcurrent: 40, roommax: 60, roomId: 666, roomtemp: 55, axios: "/Gjøvik/Bygg 118/Katedralen" };
     const histogram = [0, 0, 3, 5, 12, 2, 4, 7, 12, 24, 25, 27, 21, 22, 23, 25, 14, 11, 7, 6, 5, 0, 3, 1]
 
 
@@ -119,7 +119,7 @@ function Map() {
                     <svg className='map' viewBox="0 0 715 500" fill="none" xmlns="http://www.w3.org/2000/svg">
 
                         <g>
-                            <path className="mapelement room" id="katedralen" d="M58.5 110.5L217 46.9999L340.5 0.5L383 21L422 115.5L142.5 226.996L104 126.5L70.5 140L58.5 110.5Z" fill="currentColor" stroke='#494949' strokeWidth={'3px'} />
+                            <path className="mapelement room" id="mezza" d="M58.5 110.5L217 46.9999L340.5 0.5L383 21L422 115.5L142.5 226.996L104 126.5L70.5 140L58.5 110.5Z" fill="currentColor" stroke='#494949' strokeWidth={'3px'} />
 
                             <foreignObject id='foreignkatedralen' x="200" y="50">
                                 <RoomParticles id="katedralen" intensity={50} speed={1} />
@@ -132,7 +132,7 @@ function Map() {
 
                         </g>
                         <g>
-                            <path className="mapelement room" id="mezza" d="M322 163.5L429.5 122L433 125.5L551 79L629.5 47.5L715 247.504L435.5 359L312.5 404L305 389L252 408.5L201 285.5L345.5 226.5L322 163.5Z" fill="currentColor" stroke='#494949' strokeWidth={'3px'} />
+                            <path className="mapelement room" id="katedralen" d="M322 163.5L429.5 122L433 125.5L551 79L629.5 47.5L715 247.504L435.5 359L312.5 404L305 389L252 408.5L201 285.5L345.5 226.5L322 163.5Z" fill="currentColor" stroke='#494949' strokeWidth={'3px'} />
                             <foreignObject id='foreignmezza' x="350" y="150">
                                 <RoomParticles id="mezza" intensity={15} speed={2} />
                             </foreignObject>

@@ -19,7 +19,7 @@ const daySchema = new mongoose.Schema({
 // Define the Room subdocument schema
 const roomSchema = new mongoose.Schema({
     week_day:[daySchema],
-    roomNr: Number
+    roomNr: String
 });
 
 // Define the Buildings subdocument schema, including the 'rooms' field as an array of Room subdocuments
