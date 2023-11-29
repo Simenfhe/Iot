@@ -1,4 +1,5 @@
 //model and validation
+const { get } = require('mongoose');
 const Campus = require('../models/campus');
 const RoomHistory = require('../models/history');
 
@@ -154,9 +155,7 @@ const setToHistory = async (payload) => {
 }
 
 const getHistory = async (req,res) => {
-  console.log("history")
-  const history = "84"
-    res.send(history);
+
 
     const campusId = req.params.campusId; // Extract the campus ID from the request
     const buildingName = req.params.buildingId; // Extract the building ID from the request
@@ -190,18 +189,21 @@ const getHistory = async (req,res) => {
 
   //find day from 6 weeks ago
   let limit = new Date();
-  limit.setDate(limit.getDate() - 42);
+  limit.setDate(limit.getDate() - 100);
   limit.setHours(1,0,0,0);
   let limit_date = limit.getTime();
 
   console.log('limit', limit_date)
 
-  let data = room.week_day[week_day].date[0].date;
+  let date = room.week_day[week_day].date[0].date;
   
   //sort out the object to only contain the last 6 weeks
-  while(data < limit_date) {
+  while(date < limit_date) {
+    //console.log amount of days difference between limit and date
+    let diff = Math.floor((limit_date - date) / (1000 * 60 * 60 * 24));
+    console.log('diff', diff)
     room.week_day[week_day].date.shift();
-    data = room.week_day[week_day].date[0].date;
+    date = room.week_day[week_day].date[0].date;
   }
 
   let avg_data = room.week_day[week_day];
@@ -210,13 +212,10 @@ const getHistory = async (req,res) => {
   let sum = 0;
   let count = 0;
   //collect the average for every hour to be in a histogram
-  for(let i = 0; i < 22; i++) {
+  for(let i = 0; i < 24; i++) {
     count = 0;
     sum = 0;
-    console.log('test', avg_data.date.length)
-    console.log('i', i)
-    console.log('--------------------------------------------------------------------------')
-    console.log('++++', avg_data.date[i])
+
     for(let j = 0; j < avg_data.date.length; j++) {
       console.log('---------', j)
       
@@ -224,17 +223,23 @@ const getHistory = async (req,res) => {
       count++;
     }
     if(count != 0) {
+      //get rounded avg (whole number)
+      
       avg_data.date[0].time[i].count = Math.round(sum/count);
     }
-    //push the avg to the array
-    let average = sum/count;
+    //push the avg to the array, and have it rounded to whole number
+
+    let average =Math.round(sum/count);
+
     console.log('average', average)
     avg_array.push(average);
   }
 
-
-
   console.log('room', room.week_day[week_day].date)
+  console.log('avg-arrat', avg_array)
+  res.send(avg_array);
+
+  
 }
 //Gjøvik/Bygg 118/301
 

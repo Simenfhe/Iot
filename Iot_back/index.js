@@ -7,6 +7,7 @@ const cors = require("cors");
 const dotenv = require("dotenv").config();
 const SSE = require('sse')
 const {Room, validateRoom} = require('./models/room');
+const {findRoom} = require('./functions/findRoom')
 const Redis = require("ioredis");
 const connect = require('./functions/connect');
 const {setToHistory } = require('./controllers/countController');
@@ -47,18 +48,17 @@ app.use("/counter", counter);
 app.use("/rooms", rooms);
 
 //SSE endpoint
-app.get('/sse/:room', async (req, res) => {
-  const roomName = req.params.room; // Get the room name from URL parameters
-  let value = 0;
-  console.log(req.params.room);
+app.get('/sse/:campusId/:buildingName/:roomName', async (req, res) => {
+  const campusId = req.params.campusId; // Extract the campus ID from the request
+  const buildingName = req.params.buildingName; // Extract the building ID from the request
+  const roomName = req.params.roomName; // Extract the room ID from the request
 
   try {
-    // Use the roomName to query the "Room" collection in MongoDB
-    const room = await Room.findOne({ name: roomName });
-
+  const data = await findRoom(campusId, buildingName, roomName);
+  const room = data.room;
     if (room) {
-      value = room.available;
-      console.log('cap: ', room.capacity) // Set the value based on room.available
+      value = room.count;
+      console.log('cap: ',room.count) // Set the value based on room.available
     } else {
       console.error(`Room '${roomName}' not found in MongoDB`);
     }
@@ -66,6 +66,9 @@ app.get('/sse/:room', async (req, res) => {
     console.error('MongoDB error:', error);
     // Handle the error and respond accordingly
   }
+
+
+
 
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',
@@ -82,11 +85,15 @@ app.get('/sse/:room', async (req, res) => {
   res.write(`id: ${counter}\n\n`);
   counter += 1;
 
+  let interval;
 
-
+req.on('close', () => {
+  clearInterval(interval);
+  res.end('OK');
+});
 
   // Send a subsequent message every five seconds
-  setInterval(async () => {
+  interval = setInterval(async () => {
     if(redis.get(roomName)) {
       cashe_value = await redis.get(roomName);
       console.log('cashe_value: ', cashe_value)
@@ -98,9 +105,13 @@ app.get('/sse/:room', async (req, res) => {
     }
     console.log('sse running');
     console.log('counter: ', counter)
+
+    
     
     counter += 1;
   }, 1000);
+
+
 
   // Close the connection when the client disconnects
   req.on('close', () => res.end('OK'));
