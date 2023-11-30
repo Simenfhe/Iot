@@ -1,26 +1,60 @@
 import './mapcard.css'
 import React from 'react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Occupancymeter from '../Occupancymeter/Occupancymeter'
 import AudioMeter from '../Audiometer/Audiometer'
 import Temperatur from '../Tempmeter/Temperatur'
 import Histogram from '../Histogram/Histogram'
 
 function Mapcard(props) {
-    console.log("hgallo")
-    console.log(props.room)
-    // if (props.room) {
-    //     percentage = props.room.roomcurrent / props.room.roommax * 100
-    // }
+
 
     const temp = 22
     const audio = 45
-    const percent = 35
 
-    var available = 5
-    if (props.room.capacity) {
-        available = props.room.capacity - props.room.count
-    }
+
+
+    const initpercent = props.room.count / props.room.capacity * 100
+    const initavailable = props.room.capacity - props.room.count
+
+    const [percent, setPercent] = useState(initpercent)
+    const [available, setAvailable] = useState(initavailable)
+
+
+    useEffect(() => {
+        const eventSource = new EventSource("http://localhost:5000/sse/Gjøvik/Bygg 118/Mesaninen");
+        var data
+
+        try {
+            eventSource.onmessage = (event) => {
+                console.log(event.data)
+                data = event.data
+
+                const per = data / props.room.capacity * 100
+                console.log('++++++', data)
+                setPercent(per)
+                console.log(per)
+                console.log('---', percent)
+                const avail = props.room.capacity - data
+                setAvailable(avail)
+                console.log(avail)
+                console.log('---', available)
+
+            };
+        } catch (e) {
+            console.log(e)
+        }
+
+
+
+        return () => {
+            eventSource.close(); // Close the EventSource when the component unmounts.
+        };
+
+
+    }, [])
+
+
 
 
     return (

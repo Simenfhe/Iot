@@ -8,7 +8,6 @@ import Histogram from '../Histogram/Histogram'
 import axios from '../../functions/axios'
 
 function RoomCard(props) {
-    console.log(props.room)
 
 
     var histogram = [0, 0, 3, 5, 12, 2, 4, 7, 12, 24, 25, 27, 21, 22, 23, 25, 14, 11, 7, 6, 5, 0, 3, 1]

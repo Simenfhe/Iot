@@ -5,7 +5,7 @@ function Footer() {
     return (
         <div className='footer'>
             <div className="sock">
-                <p>søk...</p>
+                <h4>Søk...</h4>
                 <embed src="/search.svg" type="" />
             </div>
         </div>

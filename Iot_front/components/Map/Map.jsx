@@ -6,23 +6,46 @@ import Mapcard from '../mapcard/mapcard';
 
 function Map() {
     const [data, setData] = useState();
+    console.log(data)
     const [modalOpen, setModalOpen] = useState(false);
+    const [katintensity, setKatintensity] = useState(50);
+    const [mezzaintensity, setMezzaintensity] = useState(50);
 
     const katedralen = { roomcurrent: 10, roommax: 30, roomId: 69420, axios: "/Gjøvik/Bygg 118/Mesaninen" };
     const mezza = { roomcurrent: 40, roommax: 60, roomId: 666, roomtemp: 55, axios: "/Gjøvik/Bygg 118/Katedralen" };
     const histogram = [0, 0, 3, 5, 12, 2, 4, 7, 12, 24, 25, 27, 21, 22, 23, 25, 14, 11, 7, 6, 5, 0, 3, 1]
 
+    useEffect(() => {
+        axios.get("/rooms").then((response) => {
+            setData(response.data)
 
+            var katpercent = response.data[0].buildings[0].rooms[0].count / response.data[0].buildings[0].rooms[0].capacity
+            var katintensityvar = 70 - (katpercent * 50)
+            setKatintensity(katintensityvar)
 
+            var mezpercent = response.data[0].buildings[0].rooms[2].count / response.data[0].buildings[0].rooms[2].capacity
+            var mezintensityvar = 70 - (mezpercent * 50)
+            setMezzaintensity(mezintensityvar)
+        })
+    }, [])
 
-    const temp1 = 22
-    const temp2 = 25
-    const audio1 = 45
-    const audio2 = 55
-    const percent1 = 35
-    const percent2 = 55
+    // useEffect(() => {
+    //     const eventSource = new EventSource("http://localhost:5000/sse/Gjøvik/Bygg 118/Mesaninen");
+    //     try {
+    //         eventSource.onmessage = (event) => {
+    //             console.log(event.data)
+    //             katpercent = data.count / data.capacity
+    //             katintensityvar = 70 - (katpercent * 50)
+    //             setKatintensity(katintensityvar)
+    //         };
+    //     } catch (e) {
+    //         console.log(e)
+    //     }
 
-
+    //     return () => {
+    //         eventSource.close(); // Close the EventSource when the component unmounts.
+    //     };
+    // }, [data])
 
 
     useEffect(() => {
@@ -79,12 +102,9 @@ function Map() {
 
         child1.addEventListener("click", () => handleChildClick(katedralen));
         child2.addEventListener("click", () => handleChildClick(mezza));
-
         function handleChildClick(room) {
             axios.get(`/rooms${room.axios}`).then((response) => {
-                console.log(response.data)
                 if (response.data) {
-                    console.log("halla")
                     setData(response.data)
                 }
                 console.log(data)
@@ -122,7 +142,7 @@ function Map() {
                             <path className="mapelement room" id="mezza" d="M58.5 110.5L217 46.9999L340.5 0.5L383 21L422 115.5L142.5 226.996L104 126.5L70.5 140L58.5 110.5Z" fill="currentColor" stroke='#494949' strokeWidth={'3px'} />
 
                             <foreignObject id='foreignkatedralen' x="200" y="50">
-                                <RoomParticles id="katedralen" intensity={50} speed={1} />
+                                <RoomParticles id="katedralen" intensity={mezzaintensity} speed={1} />
                             </foreignObject>
                             <rect className="svglabel-back" x="165" y="82" width="160" height="50" rx={10} fill="currentcolor" />
                             <text className='svglabel' x='200' y='100' fill='black' > Katedralen</text>
@@ -134,10 +154,10 @@ function Map() {
                         <g>
                             <path className="mapelement room" id="katedralen" d="M322 163.5L429.5 122L433 125.5L551 79L629.5 47.5L715 247.504L435.5 359L312.5 404L305 389L252 408.5L201 285.5L345.5 226.5L322 163.5Z" fill="currentColor" stroke='#494949' strokeWidth={'3px'} />
                             <foreignObject id='foreignmezza' x="350" y="150">
-                                <RoomParticles id="mezza" intensity={15} speed={2} />
+                                <RoomParticles id="mezza" intensity={25} speed={2} />
                             </foreignObject>
                             <rect className="svglabel-back" x="385" y="202.5" width="160" height="50" rx={10} fill="currentcolor" />
-                            <text className='svglabel' x='420' y='220' fill='black' > Mezaninen</text>
+                            <text className='svglabel' x='420' y='220' fill='black' > Mesaninen</text>
                             <text className='svglabel' x='400' y='245' fill='black'> (Mustad bygg 118)</text>
                         </g>
 
